@@ -20,7 +20,7 @@ for trend in data.iloc:
     if len(times) == len(trend.values) and trend.values[0] > 0:
         plt.plot(range(0,len(times)), trend.values, label='{}'.format(trend.name))
 plt.legend(loc='upper left')
-plt.xlabel('Time Steps (10min intervals)')
+plt.xlabel('Time Steps (5min intervals)')
 plt.ylabel('Tweet Volume')
 # plt.axis([0, 29, 0, 500000])
 plt.show()
