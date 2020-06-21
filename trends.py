@@ -23,8 +23,7 @@ api = twitter.Api(consumer_key=CONSUMER_KEY,
 print("CONNECTED...")
 
 
-
-
+hrs = 3
 i = 0
 volumes = {}
 times = []
@@ -34,23 +33,27 @@ for trend in trends:
     volumes[trend.name] = []
 # Every 5 minutes, use an API call to get a list of the top trends
 start = time.time()
-while i < 1:
-    trends = api.GetTrendsCurrent()
-    trends = trends[:10]
+while i < hrs*12:
+    try:
+        trends = api.GetTrendsCurrent()
+        trends = trends[:10]
+    except twitter.error.TwitterError:
+        print("Twitter Error... Waiting...")
+
+        time.sleep(15*60)
     for trend in trends:
         if trend.name in volumes.keys():
             volumes[trend.name].append(trend.volume)
+        else:
+            volumes[trend.name] = [trend.volume] 
     times.append(time.time() - start)
-    time.sleep(3)
+    time.sleep(5*60)
     i += 1
 
-dataframe = pandas.DataFrame.from_dict(volumes)
-dataframe.to_pickle("volumes.pkl")
+dataframe = pandas.DataFrame.from_dict(volumes, orient='index')
+dataframe.transpose()
+dataframe.to_pickle("output/volumes.pkl")
 print(dataframe)
-np.save('times.npy', times)
-
-
-
-
+np.save('output/times.npy', times)
 
 
