@@ -1,7 +1,6 @@
 import twitter
 import time
 from time import ctime
-import smtplib
 from threading import Timer
 import matplotlib.pyplot as plt
 import pandas
@@ -24,14 +23,6 @@ api = twitter.Api(consumer_key=CONSUMER_KEY,
 print("CONNECTED...")
 
 
-pwd = "dvntlbkqffrbiiiz"
-email = 'alerts@python'
-search = "2020 election"
-
-# Connect to SMTP Server
-smtp = smtplib.SMTP('smtp.gmail.com', 587)
-smtp.starttls()
-smtp.login('michaelmondoro@gmail.com', pwd)
 
 
 i = 0
@@ -58,7 +49,7 @@ dataframe.to_pickle("volumes.pkl")
 print(dataframe)
 np.save('times.npy', times)
 
-smtp.sendmail(email, 'michaelmondoro@gmail.com', 'Subject: Program finished successfully')
+
 
 
 
